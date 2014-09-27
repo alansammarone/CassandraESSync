@@ -1,0 +1,37 @@
+{
+	"interval": 3600,
+	"mappings": [["cf1", "type1"], ["cf2", "type2"]],
+	"cassandra": {
+		"nodes": ["127.0.0.1"], 
+		"keyspace": "test_keyspace",
+		"column_families": {
+			"cf1": {
+				"id": "id_col1",
+				"timestamp": "timestamp_col1",
+				"columns": ["cf1_column1", "cf1_column2"]
+			},
+			"cf2": {
+				"id": "id_col2",
+				"timestamp": "timestamp_col2",
+				"columns": ["cf2_column1", "cf2_column2"]
+			}, 
+
+		}
+	}, 
+	"elasticsearch": {
+		"nodes": ["127.0.0.1:9200"], 
+		"index": "test_index",
+		"types": {
+			"type1": {
+				"id": "_id",
+				"timestamp": "timestamp_col3",
+				"columns": ["type1_column1", "type1_column2"]
+			},
+			"type2": {
+				"id": "_id",
+				"timestamp": "timestamp_col4",
+				"columns": ["type2_column1", "type2_column2"]
+			}
+		}
+	}
+}
