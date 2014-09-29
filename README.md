@@ -3,7 +3,7 @@
 This is a Python script that synchronizes some set of columns between a set of Cassandra column families and a set of ElasticSearch types.
 If there is an id that is present in both places, then the older one is replaced by the most recent one.
 
-It uses Cassandra's batch statement and ES's bulk api for efficiently inserting large amouts of data using a single query.
+It uses ES scan and scroll for reading arbitrary-sized ES data, and Cassandra's batch statement and ES's bulk api for efficiently inserting large amouts of data using a single query.
 
 ## Usage
 
