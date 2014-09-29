@@ -26,7 +26,7 @@ The scripts uses a config json file to set some properties. Here's an example co
 				"id": "id_col2",
 				"timestamp": "timestamp_col2",
 				"columns": ["cf2_column1", "cf2_column2"]
-			}, 
+			}
 
 		}
 	}, 
@@ -58,10 +58,15 @@ The scripts uses a config json file to set some properties. Here's an example co
 ```elasticsearch``` indicates the node adresses, the index to which the types belong, the id and timestamp columns, and the columns to be synced.
 
 
+After you have correctly configured the config.json file, you can just cd into the script folder and run ```python start.py``.
+
+The scripts automatically saves error and status messages to the /tmp/cassandraes_sync.log file. 
+
 ## Known issues 
 
 * The scripts currently doesn't run as a daemon, per say. It just sleeps. This should be fixed soon.
 * The script is very type-sensitive. Types should match precisely. 
+* The scripts syncs only the first 10 records from ES, but scan and scroll will be implemented soon.
 
 
 
