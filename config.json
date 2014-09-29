@@ -14,7 +14,7 @@
 				"id": "id_col2",
 				"timestamp": "timestamp_col2",
 				"columns": ["cf2_column1", "cf2_column2"]
-			}, 
+			} 
 
 		}
 	}, 
