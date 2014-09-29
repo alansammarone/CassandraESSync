@@ -4,7 +4,7 @@ from cassandra.cqltypes import UUIDType
 import elasticsearch
 import json
 import calendar
-from elasticsearch.helpers import bulk, streaming_bulk
+from elasticsearch.helpers import bulk, streaming_bulk, scan
 import sys
 import datetime
 from uuid import UUID
@@ -89,8 +89,12 @@ class CassandraESSync:
 		cassandra_data = self.cassandra_client.execute(cassandra_data_query)
 		self.last_synced['cassandra'][cassandra_cf] = time.time()
 
-		es_data = self.es_client.search(index=self.es_index, doc_type=es_type, fields=[index_id_column, index_timestamp_column], body=range_filter)
+		es_data = [] #self.es_client.search(index=self.es_index, doc_type=es_type, fields=[index_id_column, index_timestamp_column], body=range_filter)
+		es_scan = scan(self.es_client, index=self.es_index, doc_type=es_type, fields=[index_id_column, index_timestamp_column], query=range_filter)
 		self.last_synced['es'][es_type] = time.time()
+
+		for data in es_scan:
+			es_data.append(data)
 
 		all_data = {}
 
@@ -109,7 +113,7 @@ class CassandraESSync:
 			elif cf_start_time and cf_end_time and doc_timestamp >= cf_start_time and doc_timestamp <= cf_end_time: # 
 				all_data[doc_id] = [doc_timestamp, None]
 
-		for document in es_data['hits']['hits']:
+		for document in es_data:
 			if "fields" in document:
 				if index_id_column == '_id': # special case - is not inside fields. there must be a better way to do this ;(
 					doc_id, doc_timestamp = document[index_id_column], int(document['fields'][index_timestamp_column][0])
@@ -237,7 +241,7 @@ class CassandraESSync:
 		
 
 
-#CE = CassandraESSync(json.load(open('config.json')))
+#CE = CassandraESSync(json.load(open('myconfig.json')))
 #CE.sync_databases()
 
 
